@@ -2,9 +2,11 @@
 import {ShoppingCart ,MapPin ,Search} from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-
+import Card from '../card/page';
 
 export default function Home(){
+
+    const[data,setData] = useState([]);
 
     const[Cart,setCart] = useState(0);
 
@@ -17,6 +19,12 @@ export default function Home(){
     function SearchSubmit(){
         router.push("/hi")
     }
+
+    interface CardInterface{
+   image:string;
+   name:string;
+   price:number;
+}
 
     return(
 
@@ -67,6 +75,22 @@ export default function Home(){
 
 
             </header>
+
+            <div className="h-[80vh] overflow-y-auto">
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+                    {data.map((card: CardInterface, index: number) => (
+                    <Card
+                        key={index}
+                        image={card.image}
+                        name={card.name}
+                        price={card.price}
+                    />
+                    ))}
+                </div>
+                </div>
+
+
+          
             
         </div>
     )
