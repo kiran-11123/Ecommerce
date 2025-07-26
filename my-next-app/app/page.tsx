@@ -24,14 +24,14 @@ export default function Home() {
 
         <div className="flex gap-4">
 
-          <button onClick={TosinginPage} className="  px-2 py-1 sm:px-4  sm:py-2 text-white bg-blue-500 font-bold rounded-xl shadow-2xl ">
+          <button onClick={TosinginPage} className="  px-2 py-1 sm:px-4  sm:py-2 text-white bg-blue-500 font-bold rounded-xl shadow-2xl cursor-pointer">
             Login
 
           </button>
 
        
 
-          <button onClick={TosignupPage} className="px-2 py-1 sm:px-4  sm:py-2 text-white bg-blue-500 font-bold rounded-xl shadow-2xl">
+          <button onClick={TosignupPage} className="px-2 py-1 sm:px-4  sm:py-2 text-white bg-blue-500 font-bold rounded-xl shadow-2xl cursor-pointer">
 
                Signup
 
