@@ -1,11 +1,18 @@
-"use client"
+"use client";
 import {ShoppingCart ,MapPin ,Search} from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import Card from '../card/page';
 
+import { useAdminStore } from '../store/useAdminStore';
+
+
+
+
 export default function Home(){
 
+
+    const isAdmin = useAdminStore((state) => state.isAdmin);
     const[data,setData] = useState([]);
 
     const[Cart,setCart] = useState(0);
@@ -18,6 +25,9 @@ export default function Home(){
 
     function SearchSubmit(){
         router.push("/hi")
+    }
+    function ToUploadData(){
+        router.push("/upload")
     }
 
     interface CardInterface{
@@ -60,6 +70,15 @@ export default function Home(){
                 </div>
 
                </div>
+
+               {isAdmin &&
+
+               <div className='border border-transparent hover:border hover:border-black rounded px-2 py-2  shadow-md text-white font-bold'>
+                  
+                  <button onClick={ToUploadData}>Upload</button>  
+               </div>
+
+            }
 
                <div className='w-20 sm:w-28 px-4 py-2 border border-transparent hover:border-black rounded flex justify-center items-center shadow-md'>
                 <button onClick={ToCartPage} className='flex flex-col items-center justify-center' aria-label="Go to cart">

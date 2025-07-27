@@ -3,8 +3,23 @@ import Link from 'next/link'
 import { useState } from 'react'
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
+import { useAdminStore } from '../store/useAdminStore';
+import { jwtDecode } from "jwt-decode"; 
+
+
 
 export default function Signin(){
+
+    type Token ={
+        email:string,
+        username:string,
+        id:Number
+    }
+
+   
+
+
+    const setIsAdmin = useAdminStore((state) => state.setIsAdmin);
 
     const[email ,setEmail] = useState('');
     const[password ,setPassword] = useState('');
@@ -25,7 +40,17 @@ export default function Signin(){
 
             setMessage(response.data.message);
             localStorage.setItem("token" , response.data.token);
+            const decoded:Token = jwtDecode(response.data.token);
+
+            if(decoded.email==='admin@gmail.com'){
+                setIsAdmin(true);
+            }
+            
+
+           
             router.push("/home")
+
+            
 
         }
         else{

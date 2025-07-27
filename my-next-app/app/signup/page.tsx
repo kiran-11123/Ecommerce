@@ -76,7 +76,7 @@ export default function Signup(){
 
                 <h1 className="text-md sm:text-xl text-blue-800 text-center font-bold mb-5"> Register Here </h1>
 
-                <form className="space-y-5">
+                <form className="space-y-5" onSubmit={Signupsubmit}>
 
 
                     <div>
@@ -99,7 +99,7 @@ export default function Signup(){
                        <div>
 
                         <label className="block mb-1 text-gray-800 font-medium">FirstName</label>
-                        <input placeholder="Enter your first name" onChange={(e)=>setFirstname(e.target.value)}
+                        <input placeholder="Enter your first name min 3 letters" onChange={(e)=>setFirstname(e.target.value)}
                          type="string" className="w-full border border-gray-400 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 " required/>
 
                     </div>
@@ -107,7 +107,7 @@ export default function Signup(){
                        <div>
 
                         <label className="block mb-1 text-gray-800 font-medium">LastName</label>
-                        <input placeholder="Enter your last name"  type="string" onChange={(e)=>setLastname(e.target.value)}
+                        <input placeholder="Enter your last name min 3 letters"  type="string" onChange={(e)=>setLastname(e.target.value)}
                         className="w-full border border-gray-400 px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-400 " required/>
 
                     </div>
