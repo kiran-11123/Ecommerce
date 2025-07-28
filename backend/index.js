@@ -5,6 +5,7 @@ app.use(express.json());
 app.use(cors());
 import router from "./routes/user/routes.js";
 import AdminRouter from "./routes/admin/admin.js"
+import Product_router from './routes/data/products.js';
 import connectDB from './mongodb/db.js';
 
 
@@ -18,6 +19,7 @@ import connectDB from './mongodb/db.js';
 await connectDB();
 app.use("/api/user" , router);
 app.use("/api/admin",AdminRouter);
+app.use("/api/products",Product_router)
 
 
 

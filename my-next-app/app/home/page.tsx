@@ -5,6 +5,8 @@ import { useState } from 'react';
 import Card from '../card/page';
 
 import { useAdminStore } from '../store/useAdminStore';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 
 
@@ -14,6 +16,38 @@ export default function Home(){
 
     
     const[data,setData] = useState([]);
+
+   
+
+        useEffect(()=>{
+
+            async function getallData(){
+
+                try{
+                 const response = await axios.get("http://localhost:3000/api/products/allproducts");
+
+                 if(response.data.products){
+                     setData(response.data.products);
+                     console.log(data);
+                 }
+
+            }
+
+            catch(er){
+                console.log(er);
+            
+        }
+        }
+
+        
+
+            getallData();
+
+           
+
+        },[])
+        
+    
 
    
 
@@ -29,8 +63,8 @@ export default function Home(){
 
             
 
-            <div className="h-[80vh] overflow-y-auto">
-                <div className="grid grid-cols-2 sm:grid-cols-5 gap-4">
+          {Array.isArray(data) && data.length>0 &&  <div className="h-[80vh] overflow-y-auto">
+                <div className="grid grid-cols-1 items-center justify-center sm:grid-cols-5 gap-4">
                     {data.map((card: CardInterface, index: number) => (
                     <Card
                         key={index}
@@ -40,7 +74,7 @@ export default function Home(){
                     />
                     ))}
                 </div>
-                </div>
+                </div> }
 
 
           

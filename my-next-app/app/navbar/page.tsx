@@ -1,109 +1,123 @@
-"use client"
-import {ShoppingCart ,MapPin ,Search} from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { useState } from 'react';
-import Card from '../card/page';
+"use client";
 
-import { useAdminStore } from '../store/useAdminStore';
+import { ShoppingCart, MapPin, Search, Menu } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { useAdminStore } from "../store/useAdminStore";
 
-export default function Navbar(){
+export default function Navbar() {
+  const isAdmin = useAdminStore((state) => state.isAdmin);
+  const [Cart, setCart] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-     
-    const isAdmin = useAdminStore((state) => state.isAdmin);
-    const[data,setData] = useState([]);
+  const router = useRouter();
 
-    const[Cart,setCart] = useState(0);
+  function ToCartPage() {
+    router.push("/cart");
+  }
 
-    const router =useRouter();
+  function SearchSubmit(e: any) {
+    e.preventDefault();
+    router.push("/hi");
+  }
 
-    function ToCartPage(){
-        router.push("/cart");
-    }
+  function ToUploadData() {
+    router.push("/upload");
+  }
 
-    function SearchSubmit(){
-        router.push("/hi")
-    }
-    function ToUploadData(){
-        router.push("/upload")
-    }
-    function sendLogout(){
-        localStorage.removeItem("token");
-        useAdminStore.getState().setIsAdmin(false);
-        router.replace("/signin");
-    }
+  function sendLogout() {
+    localStorage.removeItem("token");
+    useAdminStore.getState().setIsAdmin(false);
+    router.replace("/signin");
+  }
 
-    interface CardInterface{
-   image:string;
-   name:string;
-   price:number;
-}
+  return (
+    <div>
+      {/* Navbar */}
+      <header className="flex items-center justify-between bg-gray-500 px-4 py-3 shadow-md">
+        {/* Logo */}
+        <div className="w-10 sm:w-24">
+          <img src="/logomain.jpg" alt="logo" className="w-full rounded-md" />
+        </div>
 
-    return (
+        {/* Search Bar */}
+        <form onSubmit={SearchSubmit} className="hidden sm:flex w-1/3 bg-white rounded-xl px-3 py-1 border hover:border-black">
+          <input
+            type="text"
+            placeholder="Search here..."
+            className="w-full px-2 py-1 outline-none text-sm"
+          />
+          <button  aria-label="Toggle mobile menu" type="submit">
+            <Search height={24} />
+          </button>
+        </form>
 
+        {/* Location (visible on sm+) */}
+        <div className="hidden sm:flex flex-col items-center text-white font-bold border hover:border-black rounded px-3 py-2">
+          <p className="text-sm">Address & Location</p>
+          <MapPin className="text-red-600" size={18} />
+        </div>
 
-        <div>
+        {/* Cart */}
+        <div className="flex items-center px-3 py-2 border hover:border-black rounded shadow-md text-white relative">
+          <button onClick={ToCartPage} aria-label="Go to cart" title="cart">
+            <ShoppingCart width={24} height={24} />
+            <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1">
+              {Cart}
+            </span>
+          </button>
+        </div>
 
+        {/* Admin Upload */}
+        {isAdmin && (
+          <div className="hidden sm:block px-3 py-2 text-white font-bold border hover:border-black rounded shadow-md">
+            <button onClick={ToUploadData}>Upload</button>
+          </div>
+        )}
 
+        {/* Logout (sm+) */}
+        <div className="hidden sm:block px-3 py-2 border hover:border-black rounded shadow-md text-white">
+          <button onClick={sendLogout} title="logout">Logout</button>
+        </div>
 
-         <header className="flex justify-between items-center gap-4  bg-gray-500 w-full px-4 py-3 cursor-pointer">
-               <div className="w-10 sm:w-30 h-auto py-2 px-2 rounded-md shadow-md  border border-transparent hover:border hover:border-black">
-                   <img alt="logo" src="/logo3.jpg" className="w-full rounded-mg hidden sm:block" />
-                   <img alt="logo" src="/logo2.jpg" className="w-10 rounded-mg block sm:hidden" />
-              </div>
+        {/* Mobile menu button */}
+        <button
+          className="sm:hidden text-white"
+          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+        >
+          <Menu size={28} />
+        </button>
+      </header>
 
-                
-                <form onSubmit={SearchSubmit} className='shadow-md'>
-                <div className= " flex justify-between w-40 sm:w-60 px-4 py-2 bg-white rounded-xl shadow-md border border-transparent hover:border hover:border-black">
-                 <input type="text"
-                placeholder="Search here..."
-                className="w-full h-full px-2 py-2 rounded-md outline-none text-sm font-bold hidden sm:block " aria-label="Search"
-                />
+      {/* Mobile Menu */}
+      {mobileMenuOpen && (
+        <div className="sm:hidden flex flex-col bg-gray-100 px-4 py-2 space-y-2 text-sm shadow-md">
+          <form onSubmit={SearchSubmit} className="flex bg-white rounded-md px-2 py-1 border hover:border-black">
+            <input
+              type="text"
+              placeholder="Search here..."
+              className="w-full px-2 py-1 outline-none text-sm"
+            />
+            <button aria-label="Toggle mobile menu" type="submit">
+              <Search height={20} />
+            </button>
+          </form>
 
-                <button  aria-label="serchButton" type="submit" ><Search height={30}/></button>
+          {isAdmin && (
+            <button onClick={ToUploadData} className="w-full text-left px-2 py-1 bg-green-400 text-white rounded">
+              Upload Product
+            </button>
+          )}
 
-                <input type="text"  aria-label="Search" placeholder="Search here..." className="w-full h-full px-4 py-2 rounded-md outline-none text-sm font-bold block sm:hidden"/>
-                
-               </div>
+          <button onClick={ToCartPage} className="w-full text-left px-2 py-1 border rounded">
+            🛒 Cart ({Cart})
+          </button>
 
-               </form>
-
-               <div className=" hidden sm:block  border border-transparent hover:border hover:border-black rounded px-2 py-2  shadow-md text-white">
-
-                <p className='text-center font-bold'>Address & Location  </p>
-                <div className='items-center justify-center flex'>
-                    <MapPin className='text-red-800' />
-                </div>
-
-               </div>
-
-               {isAdmin &&
-
-               <div className='border border-transparent hover:border hover:border-black rounded px-2 py-2  shadow-md text-white font-bold'>
-                  
-                  <button onClick={ToUploadData}>Upload</button>  
-               </div>
-
-            }
-
-               <div className='w-20 sm:w-28 px-4 py-2 border border-transparent hover:border-black rounded flex justify-center items-center shadow-md'>
-                <button onClick={ToCartPage} className='flex flex-col items-center justify-center' aria-label="Go to cart">
-
-                    <span className='text-sm font-bold '>{Cart}</span>
-
-                    <ShoppingCart width={80} height={30} />
- 
-                </button>
-               </div>
-
-               <div className='w-20 sm:w-28 px-4 py-2 border border-transparent hover:border-black rounded flex justify-center items-center shadow-md'>
-                     <button onClick={sendLogout}>Logout</button>
-               </div>
-
-
-
-
-            </header>
-
-            </div>
-    )
+          <button onClick={sendLogout} className="w-full text-left px-2 py-1 bg-red-500 text-white rounded">
+            Logout
+          </button>
+        </div>
+      )}
+    </div>
+  );
 }

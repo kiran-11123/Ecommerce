@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 const app = express();
 app.use(express.json());
 const Product_router = express.Router();
-import products from "../../mongodb/admin"
+import Products_main from '../../mongodb/admin.js';
 import { file } from 'zod';
 
 
@@ -11,12 +11,12 @@ Product_router.get("/allproducts" , async(req,res)=>{
 
     try{
 
-        const data = await products.find();
+        const data = await Products_main.find();
 
         if(data.length===0){
             return res.status(200).json({
                 message:"Products List is Empty",
-                products: []
+                
             })
         }
 
@@ -49,7 +49,7 @@ Product_router.get("/products",async(req,res)=>{
            filter.category = query;
         }
 
-        const data = await products.find(filter);
+        const data = await Products_main.find(filter);
 
         if(!data || data.length===0){
 
@@ -74,3 +74,5 @@ Product_router.get("/products",async(req,res)=>{
         })
     }
 })
+
+export default Product_router;
