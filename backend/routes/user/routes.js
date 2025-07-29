@@ -4,7 +4,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import dotenv from 'dotenv';
 import cookieParser from 'cookie-parser';
-import zod from 'zod'
+import zod, { readonly } from 'zod'
 
 dotenv.config();
 
@@ -14,6 +14,8 @@ const prisma = new PrismaClient();
 const secret = process.env.SECRET_KEY;
 
 const router = express.Router();
+
+import Authenticate_token from '../../middleware/jwtmiddleware.js';
 
 
 
@@ -48,10 +50,13 @@ router.post("/signin"  , async(req,res)=>{
         const token  = jwt.sign(tokendetails ,secret ,{expiresIn :"1h"})
 
         res.cookie("token", token, {
-          httpOnly: true,
-        secure: false, 
-          maxAge: 3600000 
-        });
+  httpOnly: true,
+  secure: false,        
+  sameSite: "lax",      
+  maxAge: 3600000
+});
+        console.log("✅ Token cookie set:", token); 
+        
 
         return res.json({
             message:"Login Successfull",
@@ -66,6 +71,12 @@ router.post("/signin"  , async(req,res)=>{
     }
 
 })
+
+
+router.get("/check-token", (req, res) => {
+  console.log("Received cookies:", req.cookies);
+  res.json({ token: req.cookies?.token || null });
+});
 
 
 
@@ -146,6 +157,46 @@ router.post("/signup" ,async(req,res)=>{
             message:"Internal Server Error",
             errors:er.errors
         })
+    }
+})
+
+
+
+router.post("/address" ,Authenticate_token ,  async(req,res)=>{
+       
+    try{
+
+        const userId = req.user.userId;
+
+        const{state,city,address,pincode} = req.body;
+
+        const newAddress = await prisma.userDetails.create({
+              
+            data:{
+                userId:userId,
+                state:state,
+                city:city,
+                Address:address,
+                pincode:pincode
+            }
+        })
+
+        if(newAddress){
+            return res.json(200).json({
+                message:"Address Added Successfully"
+            })
+        }
+
+        
+
+    }
+    catch(er){
+         res.status(500).json({
+            message:"Internal Server Error",
+            error:er
+            
+         })
+         console.log(er);
     }
 })
 

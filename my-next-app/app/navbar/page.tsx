@@ -1,5 +1,4 @@
 "use client";
-
 import { ShoppingCart, MapPin, Search, Menu } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -8,7 +7,7 @@ import { useAdminStore } from "../store/useAdminStore";
 export default function Navbar() {
   const isAdmin = useAdminStore((state) => state.isAdmin);
   const [Cart, setCart] = useState(0);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);  
 
   const router = useRouter();
 
@@ -30,14 +29,25 @@ export default function Navbar() {
     useAdminStore.getState().setIsAdmin(false);
     router.replace("/signin");
   }
+  function GotoHome(){
+    router.push("/home");
+  }
+
+  function ToAddressPage(){
+    router.push("/address");
+  }
+
+  
+
+
 
   return (
     <div>
       {/* Navbar */}
-      <header className="flex items-center justify-between bg-gray-500 px-4 py-3 shadow-md">
+      <header className="flex items-center justify-between bg-gray-500 px-4 py-3 shadow-md ">
         {/* Logo */}
         <div className="w-10 sm:w-24">
-          <img src="/logomain.jpg" alt="logo" className="w-full rounded-md" />
+          <button onClick={GotoHome} aria-label="Home Button"><img src="/logomain.jpg" alt="logo" className="w-full rounded-md" /></button>
         </div>
 
         {/* Search Bar */}
@@ -47,21 +57,22 @@ export default function Navbar() {
             placeholder="Search here..."
             className="w-full px-2 py-1 outline-none text-sm"
           />
-          <button  aria-label="Toggle mobile menu" type="submit">
+          <button  aria-label="Search " type="submit">
             <Search height={24} />
           </button>
         </form>
 
         {/* Location (visible on sm+) */}
         <div className="hidden sm:flex flex-col items-center text-white font-bold border hover:border-black rounded px-3 py-2">
-          <p className="text-sm">Address & Location</p>
+          
+          <button  onClick={ToAddressPage}  className="text-sm cursor-pointer ">Address & Location</button>
           <MapPin className="text-red-600" size={18} />
         </div>
 
         {/* Cart */}
         <div className="flex items-center px-3 py-2 border hover:border-black rounded shadow-md text-white relative">
           <button onClick={ToCartPage} aria-label="Go to cart" title="cart">
-            <ShoppingCart width={24} height={24} />
+            <ShoppingCart width={24} height={24}  className="cursor-pointer"/>
             <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full px-1">
               {Cart}
             </span>
@@ -71,12 +82,12 @@ export default function Navbar() {
         {/* Admin Upload */}
         {isAdmin && (
           <div className="hidden sm:block px-3 py-2 text-white font-bold border hover:border-black rounded shadow-md">
-            <button onClick={ToUploadData}>Upload</button>
+            <button onClick={ToUploadData} >Upload</button>
           </div>
         )}
 
         {/* Logout (sm+) */}
-        <div className="hidden sm:block px-3 py-2 border hover:border-black rounded shadow-md text-white">
+        <div className="hidden sm:block px-3 py-2 border hover:border-black rounded shadow-md cursor-pointer text-white">
           <button onClick={sendLogout} title="logout">Logout</button>
         </div>
 
@@ -108,6 +119,8 @@ export default function Navbar() {
               Upload Product
             </button>
           )}
+
+          <button onClick={ToAddressPage} className="w-full text-left px-2 py-1 border rounded"> Address</button>
 
           <button onClick={ToCartPage} className="w-full text-left px-2 py-1 border rounded">
             🛒 Cart ({Cart})

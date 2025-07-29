@@ -83,12 +83,12 @@ export default function Upload(){
         
 
         <div className="h-screen flex  items-center justify-center bg-gray-300">
-            
+
             <div className="w-full max-w-md bg-white p-6 rounded-md shadow-xl">
 
            
             <form  className="space-y-4" onSubmit={uploadImages}>
-                                <div>
+                <div>
                     <label className="block mb-1 text-gray-700 font-medium">Image</label>
                     <input 
                         type="file" 
