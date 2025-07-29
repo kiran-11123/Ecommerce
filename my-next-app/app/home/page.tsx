@@ -29,7 +29,7 @@ export default function Home(){
 
                  if(response.data.products){
                      setData(response.data.products);
-                     console.log(data);
+                     console.log(response.data.products);
                  }
 
             }
@@ -53,25 +53,27 @@ export default function Home(){
    
 
     interface CardInterface{
-   image:string;
-   name:string;
-   price:number;
+   product_image:string;
+   product_name:string;
+   product_price:number;
 }
 
     return(
+ 
+        <div className="flex flex-col min-h-screen items-center  ">
 
-        <div className="flex flex-col min-h-screen items-center ">
+            
 
             
 
           {Array.isArray(data) && data.length>0 &&  <div className="h-[80vh] overflow-y-auto">
-                <div className="grid grid-cols-1 items-center justify-center sm:grid-cols-5 gap-4">
+                <div className="grid grid-cols-1  sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4  xl:grid-cols-5 gap-4 mt-10">
                     {data.map((card: CardInterface, index: number) => (
                     <Card
                         key={index}
-                        image={card.image}
-                        name={card.name}
-                        price={card.price}
+                        image={card.product_image}
+                        name={card.product_name}
+                        price={card.product_price}
                     />
                     ))}
                 </div>

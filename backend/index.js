@@ -3,6 +3,7 @@ import cors from 'cors'
 import cookieParser from 'cookie-parser';
 const app = express();
 app.use(express.json());
+app.use('/uploads', express.static('uploads'));
 
 app.use(cors({
   origin: "http://localhost:3001",
