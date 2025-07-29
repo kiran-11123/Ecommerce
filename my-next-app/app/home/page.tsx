@@ -24,7 +24,8 @@ export default function Home(){
             async function getallData(){
 
                 try{
-                 const response = await axios.get("http://localhost:3000/api/products/allproducts");
+                 const response = await axios.get("http://localhost:3000/api/products/allproducts",{
+                    withCredentials: true});
 
                  if(response.data.products){
                      setData(response.data.products);

@@ -33,7 +33,7 @@ model UserDetails{
     state String
     city String
     Address String
-    pincode Int
+    pincode String
      user    User?   @relation(name: "UserToUserDetails", fields: [userId], references: [id])
 
 }

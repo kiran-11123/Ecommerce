@@ -27,7 +27,8 @@ export default function Signup(){
                 firstname:firstname,
                 lastname:lastname,
                 password:password
-            })
+            },{
+            withCredentials: true})
 
             if(response && response.data){
 

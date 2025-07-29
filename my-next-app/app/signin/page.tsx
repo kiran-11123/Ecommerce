@@ -34,7 +34,9 @@ export default function Signin(){
             const response = await axios.post("http://localhost:3000/api/user/signin" , {
             email:email,
             password:password
-        })
+        },{
+  withCredentials: true, 
+})
 
         if(response && response.data.message){
 

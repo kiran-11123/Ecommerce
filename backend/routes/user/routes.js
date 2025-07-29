@@ -49,12 +49,12 @@ router.post("/signin"  , async(req,res)=>{
 
         const token  = jwt.sign(tokendetails ,secret ,{expiresIn :"1h"})
 
-        res.cookie("token", token, {
-  httpOnly: true,
-  secure: false,        
-  sameSite: "lax",      
-  maxAge: 3600000
-});
+            res.cookie("token", token, {
+                httpOnly: true,
+                secure: false,        
+                sameSite: "lax",      
+                maxAge: 3600000
+            });
         console.log("✅ Token cookie set:", token); 
         
 
@@ -170,15 +170,23 @@ router.post("/address" ,Authenticate_token ,  async(req,res)=>{
 
         const{state,city,address,pincode} = req.body;
 
-        const newAddress = await prisma.userDetails.create({
+        const newAddress = await prisma.userDetails.upsert({
+
+            where :{userId:userId},
               
-            data:{
-                userId:userId,
+            update:{
                 state:state,
                 city:city,
                 Address:address,
                 pincode:pincode
-            }
+            },
+            create:{
+                userId:userId,
+                state:state,
+                city:city,
+                Address:address,
+                pincode:pincode 
+            },
         })
 
         if(newAddress){

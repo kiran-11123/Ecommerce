@@ -49,7 +49,9 @@ export default function Upload(){
 
 
         
-        const response = await axios.post("http://localhost:3000/api/admin/upload",formData);
+        const response = await axios.post("http://localhost:3000/api/admin/upload",formData,{
+           withCredentials: true, 
+          });
 
         if(response.data.message){
             
