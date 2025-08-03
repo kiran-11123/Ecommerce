@@ -6,8 +6,35 @@ interface CardInterface{
    price:number;
 }
 
+
+
 import { ShoppingCart } from "lucide-react"
+import { useState } from "react";
 export default function Card({image,name,price}:CardInterface){
+
+  const[count,setCount] = useState(1);
+
+  function Increment(){
+       
+    setCount(count+1);
+  }
+
+  function Decrement(){
+      
+    if(count>1){
+       setCount(count-1)
+    }
+  }
+
+  async function AddtoCartFunction() {
+
+
+
+       
+    
+  }
+
+ 
 
 
 
@@ -21,14 +48,24 @@ export default function Card({image,name,price}:CardInterface){
                 <img src={imageUrl}   alt="image" className="w-full h-full object-cover rounded group-hover:scale-105 transition duration-300" />
             </div>
 
-            <div className="w-full  text-center  px-4 py-2 border border-transparent hover:border rounded hover:border-black hover:scale-90 hover:transform border">
+            <div className="w-full  text-center  px-4 py-2  border-transparent hover:border rounded hover:border-black hover:scale-90 hover:transform border">
                <p className="text-lg truncate text-gray-800 font-sans font-bold ">{name} </p> 
                 <p className="text-md  text-gray-900 mt-1 ">₹ {price}</p>
+            </div>
+
+            <div className="flex items-center justify-between w-full">
+                <p className="font-bold ">Quantity</p>
+              <button className="px-1 bg-red-400" onClick={Increment}>+</button> 
+              <button className="px-2 bg-green-300" onClick={Decrement}>-</button>
+              <p>{count}</p>
             </div>
             
              <div className="px-4 pb-4">
         <button
           type="button"
+          onClick={AddtoCartFunction}
+
+         
           
           className="w-full flex items-center justify-center gap-2 bg-amber-400 hover:bg-amber-500 text-white font-semibold py-2 px-4 rounded-lg transition duration-300"
         >

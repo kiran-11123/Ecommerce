@@ -37,7 +37,39 @@ Product_router.get("/allproducts" , async(req,res)=>{
 
 })
 
-Product_router.get("/products",async(req,res)=>{
+Product_router.get("/products/price",async(req,res)=>{
+
+    try{
+
+        const price = req.query;
+
+        const filter={}
+
+        if(price){
+            filter.price = price;
+        }
+        const data =await Products_main.find({filter});
+
+        if(!data || data.length===0){
+            return res.status(400).json({
+                 message:"No data found"
+            })
+        }
+
+        return res.json({
+            message:"Products Found",
+            products:data
+        })
+
+    }
+    catch(er){
+        return res.json({
+            message:"Internal Server Error"
+        })
+    }
+
+})
+Product_router.get("/products/category",async(req,res)=>{
 
     const query = req.query;
       
