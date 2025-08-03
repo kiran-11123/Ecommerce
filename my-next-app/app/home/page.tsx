@@ -53,6 +53,8 @@ export default function Home(){
    
 
     interface CardInterface{
+   _id: string;
+   product_id:string;
    product_image:string;
    product_name:string;
    product_price:number;
@@ -71,6 +73,7 @@ export default function Home(){
                     {data.map((card: CardInterface, index: number) => (
                     <Card
                         key={index}
+                        product_id = {card._id}
                         image={card.product_image}
                         name={card.product_name}
                         price={card.product_price}

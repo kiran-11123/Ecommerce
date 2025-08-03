@@ -1,6 +1,7 @@
 "use client"
 
 interface CardInterface{
+   product_id :string,
    image:string;
    name:string;
    price:number;
@@ -10,7 +11,8 @@ interface CardInterface{
 
 import { ShoppingCart } from "lucide-react"
 import { useState } from "react";
-export default function Card({image,name,price}:CardInterface){
+import axios from "axios";
+export default function Card({product_id ,image,name,price}:CardInterface){
 
   const[count,setCount] = useState(1);
 
@@ -27,6 +29,25 @@ export default function Card({image,name,price}:CardInterface){
   }
 
   async function AddtoCartFunction() {
+
+    const response   = await axios.post("http://localhost:3000/api/products/cart",{
+
+      product_id,
+      image,
+      name,
+      count,
+      price
+
+    },{withCredentials:true})
+
+    if(response.data.message){ 
+        
+       window.alert("Product added to cart successfully");
+    }
+    else{
+        
+      window.alert(response.data.message);
+    }
 
 
 
