@@ -5,6 +5,9 @@ app.use(express.json());
 const Product_router = express.Router();
 import Products_main from '../../mongodb/admin.js';
 import { file } from 'zod';
+import cartRouter from './cart.js';
+
+Product_router.use("/cart" , cartRouter);
 
 
 Product_router.get("/allproducts" , async(req,res)=>{

@@ -1,8 +1,8 @@
 import express from 'express'
 import mongoose from 'mongoose'
-import Cart from '../../mongodb/cart';
+import Cart from '../../mongodb/cart.js';
 const cartRouter = express.Router();
-import Authenticate_token from '../../middleware/jwtmiddleware';
+import Authenticate_token from '../../middleware/jwtmiddleware.js';
 
 
 
@@ -10,9 +10,11 @@ cartRouter.post("/add" ,Authenticate_token ,  async(req,res)=>{
 
     try{
 
-        const user_id = req.user.user_id;
+        const user_id = req.user.userId;
 
         const {product_id , image,name,count,price} = req.body;
+
+        console.log(product_id , image,name,count,price);
 
         const totalprice = count*price;
 
@@ -20,7 +22,8 @@ cartRouter.post("/add" ,Authenticate_token ,  async(req,res)=>{
 
         if(userFind){
               
-            userFind.items.add({product_id,image,name,count ,totalprice});
+            userFind.items.push({productId : product_id ,productImage:image,productName:name,quantity:count ,price:totalprice});
+            await userFind.save();
 
             return res.json({
                 message:"Successfully added to cart"
@@ -29,15 +32,29 @@ cartRouter.post("/add" ,Authenticate_token ,  async(req,res)=>{
 
         else{
 
-            
+            const newCart = new Cart({
+                userId:user_id,
+                items :[{productId : product_id ,productImage:image,productName:name,quantity:count ,price:totalprice}]
+
+
+            })
+
+            await newCart.save();
+
+            return res.json({
+                message:"Cart created and added the items"
+            })
+
+
              
         }
 
     }
     catch(er){
+        console.error(er);
         return res.json({
-            message:"Server Error",
-            error:er
+            message:er,
+           error:er
         })
     }
 

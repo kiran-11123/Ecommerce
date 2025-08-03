@@ -30,7 +30,7 @@ export default function Card({product_id ,image,name,price}:CardInterface){
 
   async function AddtoCartFunction() {
 
-    const response   = await axios.post("http://localhost:3000/api/products/cart",{
+    const response   = await axios.post("http://localhost:3000/api/products/cart/add",{
 
       product_id,
       image,
@@ -42,16 +42,13 @@ export default function Card({product_id ,image,name,price}:CardInterface){
 
     if(response.data.message){ 
         
-       window.alert("Product added to cart successfully");
+       window.alert(response.data.message);
+       setCount(1);
     }
     else{
         
       window.alert(response.data.message);
     }
-
-
-
-       
     
   }
 
