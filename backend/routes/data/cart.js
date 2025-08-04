@@ -63,6 +63,35 @@ cartRouter.post("/add" ,Authenticate_token ,  async(req,res)=>{
 
 })
 
+cartRouter.get("/data",Authenticate_token , async(req,res)=>{
+
+    try{
+
+        const user_id = req.user.userId;
+
+        const data = await Cart.findOne({userId : user_id});
+
+        if(!data){
+            return res.status(200).json({
+                message:"Cart is Empty"
+            })
+        }
+
+        return res.json({
+            cartData : data,
+            message:"Data feteched successfully"
+        })
+
+    }
+    catch(er){
+        return res.status(500).json({
+            message:"Internal Server Error",
+            error:er
+        })
+    }
+
+})
+
 
 
 
