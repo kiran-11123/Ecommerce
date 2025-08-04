@@ -2,12 +2,13 @@
 import { ShoppingCart, MapPin, Search, Menu } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { useAdminStore } from "../store/useAdminStore";
+import { useAdminStore  } from "../store/useAdminStore";
 
 export default function Navbar() {
   const isAdmin = useAdminStore((state) => state.isAdmin);
   const [Cart, setCart] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);  
+
 
   const router = useRouter();
 

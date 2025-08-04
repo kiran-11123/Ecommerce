@@ -6,10 +6,10 @@ import { useEffect } from "react"
 import { useState } from "react";
 import Cartcard from "../Cartcard/page";
 
+
 export default function Cart(){
 
     const[cartData , setCartData] = useState([]);
-    const[cartUpdated , setCartUpdated] = useState(false);
 
 
     useEffect(()=>{
@@ -24,13 +24,16 @@ export default function Cart(){
                 withCredentials:true
             })
 
-            if(response.data.cartData.length > 0 ){
+            if(response.data.cartData ){
 
                 setCartData(response.data.cartData);
+
+                console.log(cartData);
                  
             }
             else{
                 setCartData([]);
+                console.log(cartData)
             }
 
         }
@@ -44,18 +47,19 @@ export default function Cart(){
 
     getCartData();
 
-    },[cartUpdated])
+    },[])
 
 
     interface CartInterface{
          productId :string;
          productImage:string;
          productName:string;
-         quantity:Number;
-         price:Number;
+         quantity:number;
+         price:number;
+         _id:string;
     }
     return(
-        <div className="p-5 flex items-center justify-between bg-white">
+        <div className="p-5  bg-white">
 
             <div className="flex items-center justify-center px-5 py-3 ">
 
@@ -71,6 +75,7 @@ export default function Cart(){
                                             productName={card.productName}
                                             quantity = {card.quantity}
                                             price={card.price}
+                                            id={card._id}
                                         />
                      ))}
 
@@ -82,7 +87,26 @@ export default function Cart(){
                     }
                
             </div>
+
+            <div className="w-full px-5 py-2 bg-red-200 h-20  flex items-center justify-between font-bold">
+
+                <div>Total Items with Quantity : </div>
+
+                <div>Total Amount : </div>
+
+
+                <button className="px-4 py-2 bg-gray-200 font-bold rounded  shadow-2xs ">checkout </button>
+
+
+
+
+
+            </div>
+
+            
             
         </div>
+
+
     )
 }

@@ -9,22 +9,29 @@ interface CardInterface{
 
 
 
+
 import { ShoppingCart } from "lucide-react"
 import { useState } from "react";
 import axios from "axios";
+
 export default function Card({product_id ,image,name,price}:CardInterface){
 
-  const[count,setCount] = useState(1);
+
+
+  const[counter,setCount] = useState(1);
+
 
   function Increment(){
        
-    setCount(count+1);
+    setCount(counter+1);
+  
   }
 
   function Decrement(){
       
-    if(count>1){
-       setCount(count-1)
+    if(counter>1){
+       setCount(counter-1)
+      
     }
   }
 
@@ -35,7 +42,7 @@ export default function Card({product_id ,image,name,price}:CardInterface){
       product_id,
       image,
       name,
-      count,
+      counter,
       price
 
     },{withCredentials:true})
@@ -43,7 +50,8 @@ export default function Card({product_id ,image,name,price}:CardInterface){
     if(response.data.message){ 
         
        window.alert(response.data.message);
-       setCount(1);
+       setCount(0);
+       
     }
     else{
         
@@ -75,7 +83,7 @@ export default function Card({product_id ,image,name,price}:CardInterface){
                 <p className="font-bold ">Quantity</p>
               <button className="px-1 bg-red-400" onClick={Increment}>+</button> 
               <button className="px-2 bg-green-300" onClick={Decrement}>-</button>
-              <p>{count}</p>
+              <p>{counter}</p>
             </div>
             
              <div className="px-4 pb-4">

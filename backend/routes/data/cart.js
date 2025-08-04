@@ -77,8 +77,10 @@ cartRouter.get("/data",Authenticate_token , async(req,res)=>{
             })
         }
 
+        console.log(data.items)
+
         return res.json({
-            cartData : data,
+            cartData : data.items,
             message:"Data feteched successfully"
         })
 
@@ -90,6 +92,42 @@ cartRouter.get("/data",Authenticate_token , async(req,res)=>{
         })
     }
 
+})
+
+cartRouter.delete("/delete" , Authenticate_token , async(req,res)=>{
+       
+    try{
+
+        const delete_id =req.query.id;
+
+        const user_id = req.user.userId;
+
+        const finduser = await Cart.findOne({userId:user_id});
+
+        if(!finduser){
+            return res.json({
+                message:"You dont have any items in cart"
+            })
+        }
+
+        finduser.items = finduser.items.filter(item => item._id.toString() !==delete_id);
+        console.log(finduser.items)
+
+        await finduser.save();
+
+        return res.json({
+            message:"Items Removed from cart"
+            
+        })
+
+
+    }
+    catch(er){
+        return res.json({
+            message:"Deleted the item from cart",
+            error:er
+        })
+    }
 })
 
 

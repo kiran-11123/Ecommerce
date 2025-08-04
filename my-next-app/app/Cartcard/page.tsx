@@ -1,18 +1,37 @@
 "use client"
 
+import axios from "axios";
+
 
  interface Cartcard{
+    key:number;
          productId :string;
          productImage:string;
          productName:string;
          quantity:number;
          price:number;
+         id:string;
+    }
+
+      async function RemovefromCart(id:string) {
+
+
+        const response = await axios.delete(`http://localhost:3000/api/products/cart/delete?id=${id}` ,
+          {
+         withCredentials:true
+        })
+
+        if(response.data.message){ 
+          window.alert(response.data.message);
+        }
+
     }
 
 
 
-export default function Cartcard({productId ,productImage,productName,quantity , price} : Cartcard){
+export default function Cartcard({ productId ,productImage,productName,quantity , price,id} : Cartcard){
 
+  
     
 
     const image_url = `http://localhost:3000/uploads/${productImage}`;
@@ -27,15 +46,22 @@ export default function Cartcard({productId ,productImage,productName,quantity ,
                 <img src={image_url}   alt="image" className="w-full h-full object-cover rounded group-hover:scale-105 transition duration-300" />
 
               </div>
-              <div className="text-center font-bold flex items-center justify-between text-md">
+              <div className="text-center font-bold flex items-center justify-evenly text-md">
                   
-                  <p>{productName}</p>
-                  <p>{quantity}</p>
+                  <div>{productName}</div>
 
               </div>
 
+              <div>
+                  <p>Quantity : {quantity} </p>
+              </div>
+
               <div className="text-center font-bold flex items-center justify-between text-md">
-                <p>{price}</p>
+                <p>Total : {price}</p>
+              </div>
+
+              <div>
+                <button className="px-5 py-3 bg-blue-400 rounded-2xl" onClick={()=>RemovefromCart(id)}>Remove</button>
               </div>
 
         </div>
