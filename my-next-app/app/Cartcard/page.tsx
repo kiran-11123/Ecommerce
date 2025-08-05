@@ -3,6 +3,7 @@
 import axios from "axios";
 
 
+
  interface Cartcard{
     key:number;
          productId :string;
@@ -30,6 +31,8 @@ import axios from "axios";
 
 
 export default function Cartcard({ productId ,productImage,productName,quantity , price,id} : Cartcard){
+     
+
 
   
     
@@ -57,6 +60,7 @@ export default function Cartcard({ productId ,productImage,productName,quantity 
               </div>
 
               <div className="text-center font-bold flex items-center justify-between text-md">
+                
                 <p>Total : {price}</p>
               </div>
 

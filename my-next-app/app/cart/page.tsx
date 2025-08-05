@@ -5,11 +5,22 @@ import axios from "axios";
 import { useEffect } from "react"
 import { useState } from "react";
 import Cartcard from "../Cartcard/page";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { cartValue , cartCount } from "../atoms/atom";
 
 
 export default function Cart(){
 
-    const[cartData , setCartData] = useState([]);
+    const[cartData , setCartData] = useState<CartInterface[]>([]);
+  
+   
+
+
+
+
+
+
+    
 
 
     useEffect(()=>{
@@ -50,6 +61,22 @@ export default function Cart(){
     },[])
 
 
+
+
+const [cartPrice, setCartPrice] = useState(0);
+const[cartQuantity , setCartQuantity] = useState(0);
+
+useEffect(() => {
+  const totalPrice = cartData.reduce((sum, cart) => sum + cart.price, 0);
+  const totalQuantity = cartData.reduce((sum, cart) => sum + cart.quantity, 0);
+
+  setCartPrice(totalPrice);
+  setCartQuantity(totalQuantity);
+ 
+}, [cartData]);
+
+
+
     interface CartInterface{
          productId :string;
          productImage:string;
@@ -77,6 +104,9 @@ export default function Cart(){
                                             price={card.price}
                                             id={card._id}
                                         />
+
+                                       
+                                        
                      ))}
 
 
@@ -90,9 +120,9 @@ export default function Cart(){
 
             <div className="w-full px-5 py-2 bg-red-200 h-20  flex items-center justify-between font-bold">
 
-                <div>Total Items with Quantity : </div>
+                <div>Total Items with Quantity : {cartQuantity} </div>
 
-                <div>Total Amount : </div>
+                <div>Total Amount : {cartPrice}</div>
 
 
                 <button className="px-4 py-2 bg-gray-200 font-bold rounded  shadow-2xs ">checkout </button>
