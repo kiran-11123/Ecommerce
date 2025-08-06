@@ -37,6 +37,8 @@ export default function Card({product_id ,image,name,price}:CardInterface){
 
   async function AddtoCartFunction() {
 
+    console.log(product_id, image, name, counter, price);
+
     const response   = await axios.post("http://localhost:3000/api/products/cart/add",{
 
       product_id,
@@ -50,7 +52,7 @@ export default function Card({product_id ,image,name,price}:CardInterface){
     if(response.data.message){ 
         
        window.alert(response.data.message);
-       setCount(0);
+       setCount(1);
        
     }
     else{

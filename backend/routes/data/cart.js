@@ -40,6 +40,7 @@ cartRouter.post("/add" ,Authenticate_token ,  async(req,res)=>{
             })
 
             await newCart.save();
+            console.log(newCart);
 
             return res.json({
                 message:"Cart created and added the items"

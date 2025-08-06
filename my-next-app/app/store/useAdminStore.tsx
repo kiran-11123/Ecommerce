@@ -12,5 +12,10 @@ export const useAdminStore = create<AdminState>((set) => ({
   setIsAdmin: (value) => set({ isAdmin: value }),
 }));
 
+export const cartcount = create<{count :number,increment:(data:number)=>void}>((set)=>({
+  count: 0,
+  increment: (data:number) => set((state) => ({ count: state.count + data })),
+
+}));
 
 

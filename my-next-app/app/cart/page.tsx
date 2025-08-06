@@ -6,12 +6,16 @@ import { useEffect } from "react"
 import { useState } from "react";
 import Cartcard from "../Cartcard/page";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { cartValue , cartCount } from "../atoms/atom";
+import { cartcount } from "../store/useAdminStore";
+import { useRouter } from "next/navigation";
+
+
 
 
 export default function Cart(){
 
     const[cartData , setCartData] = useState<CartInterface[]>([]);
+    const router = useRouter();
   
    
 
@@ -61,6 +65,13 @@ export default function Cart(){
     },[])
 
 
+   async function  ToCheckout(){
+           
+             router.push("/checkout");
+   }
+    
+
+
 
 
 const [cartPrice, setCartPrice] = useState(0);
@@ -72,7 +83,8 @@ useEffect(() => {
 
   setCartPrice(totalPrice);
   setCartQuantity(totalQuantity);
- 
+  cartcount.getState().increment(totalQuantity);
+
 }, [cartData]);
 
 
@@ -125,7 +137,7 @@ useEffect(() => {
                 <div>Total Amount : {cartPrice}</div>
 
 
-                <button className="px-4 py-2 bg-gray-200 font-bold rounded  shadow-2xs ">checkout </button>
+                <button className="px-4 py-2 bg-gray-200 font-bold rounded  shadow-2xs"  onClick={ToCheckout}>checkout </button>
 
 
 
