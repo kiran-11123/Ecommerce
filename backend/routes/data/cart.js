@@ -12,17 +12,25 @@ cartRouter.post("/add" ,Authenticate_token ,  async(req,res)=>{
 
         const user_id = req.user.userId;
 
-        const {product_id , image,name,count,price} = req.body;
+        let {product_id , image,name,counter,price} = req.body;
+        console.log(typeof counter, typeof price);
 
-        console.log(product_id , image,name,count,price);
+        counter = Number(counter);
+        price = Number(price);
 
-        const totalprice = count*price;
+        if (isNaN(counter) || isNaN(price)) {
+            return res.status(400).json({
+                message: "Invalid input: count and price must be numbers"
+            });
+        }
+
+        const totalprice = counter * price;
 
         const userFind  = await Cart.findOne({userId:user_id})
 
         if(userFind){
               
-            userFind.items.push({productId : product_id ,productImage:image,productName:name,quantity:count ,price:totalprice});
+            userFind.items.push({productId : product_id ,productImage:image,productName:name,quantity:counter ,price:totalprice});
             await userFind.save();
 
             return res.json({
@@ -34,7 +42,7 @@ cartRouter.post("/add" ,Authenticate_token ,  async(req,res)=>{
 
             const newCart = new Cart({
                 userId:user_id,
-                items :[{productId : product_id ,productImage:image,productName:name,quantity:count ,price:totalprice}]
+                items :[{productId : product_id ,productImage:image,productName:name,quantity:counter ,price:totalprice}]
 
 
             })

@@ -3,12 +3,14 @@ import { ShoppingCart, MapPin, Search, Menu } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useAdminStore ,cartcount } from "../store/useAdminStore";
+import Home from "../home/page";
 
 
 export default function Navbar() {
   const isAdmin = useAdminStore((state) => state.isAdmin);
   const [Cart, setCart] = useState(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false); 
+  const [searchData , setSearchData] = useState('');
 
 
 
@@ -19,10 +21,7 @@ export default function Navbar() {
     router.push("/cart");
   }
 
-  function SearchSubmit(e: any) {
-    e.preventDefault();
-    router.push("/hi");
-  }
+
 
   function ToUploadData() {
     router.push("/upload");
@@ -40,6 +39,21 @@ export default function Navbar() {
   function ToAddressPage(){
     router.push("/address");
   }
+
+
+  async function SearchSubmit(e: any) {
+       
+      if(searchData.length >1){
+             
+       router.push(`/home?search=${encodeURIComponent(searchData)}`);
+
+      }
+      else{
+         console.log("Invalid Request")
+      }
+  }
+
+
 
 
 
@@ -62,6 +76,7 @@ export default function Navbar() {
             type="text"
             placeholder="Search here..."
             className="w-full px-2 py-1 outline-none text-sm"
+            onChange={(e)=>setSearchData(e.target.value)}
           />
           <button  aria-label="Search " type="submit">
             <Search height={24} />
@@ -114,6 +129,7 @@ export default function Navbar() {
               type="text"
               placeholder="Search here..."
               className="w-full px-2 py-1 outline-none text-sm"
+              onChange={(e)=>setSearchData(e.target.value)}
             />
             <button aria-label="Toggle mobile menu" type="submit">
               <Search height={20} />

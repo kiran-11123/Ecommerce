@@ -44,8 +44,8 @@ export default function Card({product_id ,image,name,price}:CardInterface){
       product_id,
       image,
       name,
-      counter,
-      price
+      counter : Number(counter),
+      price:Number(price)
 
     },{withCredentials:true})
 
