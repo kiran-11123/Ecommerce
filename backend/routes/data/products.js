@@ -90,6 +90,7 @@ Product_router.get("/category",async(req,res)=>{
         }
 
         const data = await Products_main.find(filter);
+        console.log(data);
 
         if(!data || data.length===0){
 
@@ -100,7 +101,7 @@ Product_router.get("/category",async(req,res)=>{
 
         }
 
-        console.log(data);
+        
 
         return res.status(200).json({
             message:"Products found",

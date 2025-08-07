@@ -19,7 +19,7 @@ export default function Home() {
     const params = new URLSearchParams(window.location.search);
     const searchQuery = params.get("search") || "";
     setSearch(searchQuery);
-  }, []);
+  }, [useSearchParams])
 
   const [data, setData] = useState([]);
 
@@ -33,6 +33,9 @@ export default function Home() {
             withCredentials: true,
           });
 
+          console.log("Search query:", search);
+          console.log("Response data:", response.data);
+
           
         } else {
             response = await axios.get("http://localhost:3000/api/products/allproducts", {
@@ -42,7 +45,7 @@ export default function Home() {
 
         if (response.data.products) {
           setData(response.data.products);
-          console.log(data);
+         
         } else {
           window.alert("No products found");
         }
